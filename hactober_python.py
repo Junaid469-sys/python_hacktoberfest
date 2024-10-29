@@ -1,35 +1,19 @@
-english_sentence = input().lower()
-english_words = english_sentence.split()
-latin_words = []
-
-vowels = ['a','e','i','o','u']
-
-for word in english_words:
-    has_vowel = False
-
-    for i in range(len(word)):
-        
-        '''
-        if first letter is a vowel
-        '''
+def pig_latin(sentence):
+    vowels = "aeiou"
+    words = sentence.lower().split()
+    
+    def convert_word(word):
         if word[0] in vowels:
-            latin_words.append(word + "yay")
-            break
-        else:
-            '''
-            else get vowel position and postfix all the consonants 
-            present before that vowel to the end of the word along with "ay"
-            '''
-            
-            if word[i] in vowels:
-                latin_words.append(word[i:] + word[:i] + "ay")
-                has_vowel = True
-                break
+            return word + "yay"
+        
+        first_vowel = next((i for i, letter in enumerate(word) if letter in vowels), -1)
+        
+        if first_vowel == -1:
+            return word + "ay"
+        
+        return word[first_vowel:] + word[:first_vowel] + "ay"
+    
+    return ' '.join(convert_word(word) for word in words)
 
-            #if the word doesn't have any vowel then simply postfix "ay"
-            if(has_vowel == False and i == len(word)-1):
-                latin_words.append(word + "ay")
-                break
-
-pig_latin_sentence = ' '.join(latin_words)
-print(pig_latin_sentence)
+english_sentence = input("Enter a sentence: ")
+print(pig_latin(english_sentence))
